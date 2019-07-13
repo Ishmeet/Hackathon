@@ -48,5 +48,13 @@ def predict_assignee():
     #return jsonify( { 'assignee': assignee } ), 200
     return jsonify( assignee ), 200
 
+@app.route('/rca', methods = ['POST'])
+def predict_rca():
+    print("request.json:",request.json)
+    if not request.json or not 'Summary' in request.json:
+        abort(400)
+    
+    
+    
 if __name__ == '__main__':
-    app.run(host="169.38.77.105",debug=False)
+    app.run(debug=False)
