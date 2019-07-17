@@ -98,7 +98,22 @@ np.mean(predicted_neigh == y_test)*100
 
 #Metrics
 from sklearn import metrics
-metrics.classification_report(y_test, predicted_sgd)
+metrics.classification_report(y_test, predicted_dtree)
+
+#Test
+aabb_test_1 = Vector1.transform(["UI refresh is not happening if RG is deleted from backend"])
+aabb_test_2 = Vector2.transform(["If resource group is deleted from backend then UI automatic refresh is not happening. If user removes the resource group from backend the cluster tree is not updated and Resource group is still visible on GUI."])
+#aabb_test_3 = Vector3.transform(["<p>APAR_ABSTRACT=RG wont disappear from GUI after deletion till user perform sync<br>SYMPTOM - Any Symptoms the customer experience<br>#-------------------------------------------------------------|<br>START_SYMPTOM<br>RG wont disappear from GUI after deletion till user perform sync<br>STOP_SYMPTOM<br>SOLUTION - Description of the fix to the problem<br>#-------------------------------------------------------------|<br>START_SOLUTION<br>provided handling for missing case<br>STOP_SOLUTION<br>WORKAROUND - Temporary way around the problem<br>#-------------------------------------------------------------|<br>START_WORKAROUND<br>NA<br>STOP_WORKAROUND<br></p>"])
+aabb_test_3 = Vector3.transform([""])
+#aabb_test_4 = Vector4.transform(["provided handling for missing case"])
+aabb_test_4 = Vector4.transform([""]) 
+#aabb_test_5 = Vector5.transform(["RG wont disappear from GUI after deletion till user perform sync"])
+aabb_test_5 = Vector5.transform([""]) 
+#aabb_test_6 = Vector6.transform(["specific event handling was missing"])
+aabb_test_6 = Vector6.transform([""])
+aabb_test_vector = hstack([aabb_test_1, aabb_test_2, aabb_test_3, aabb_test_4, aabb_test_5, aabb_test_6])
+aabb_test_vector_tfidf = tfidf_train.transform(aabb_test_vector)
+Dtreeclf.predict(aabb_test_vector_tfidf)
 
 # Grid Search
 from sklearn.model_selection import GridSearchCV
@@ -118,6 +133,28 @@ label_prop_model = LabelPropagation()
 dat1['Custom field (Root Cause)']
 labels = np.copy(dat1['Custom field (Root Cause)'])
 RC = label_prop_model.fit(X_train_vector_tfidf, labels)
+
+HackPickle = 'HackPickle.pkl'
+# Open the file to save as pkl file
+HackPickle_model_pkl = open(HackPickle, 'wb')
+pickle.dump(clf, HackPickle_model_pkl)
+
+pickle.dump(Vector1, open("Vector1.pkl", "wb"))
+pickle.dump(Vector2, open("Vector2.pkl", "wb"))
+pickle.dump(Vector3, open("Vector3.pkl", "wb"))
+pickle.dump(Vector4, open("Vector4.pkl", "wb"))
+pickle.dump(Vector5, open("Vector5.pkl", "wb"))
+pickle.dump(Vector6, open("Vector6.pkl", "wb"))
+pickle.dump(tfidf_train, open("tfidf_train.pkl", "wb"))
+pickle.dump(clf, open("MultinomialNB.pkl", "wb"))
+pickle.dump(sgd, open("SGDClassifier.pkl", "wb"))
+pickle.dump(Dtreeclf, open("DecisionTreeClassifier.pkl", "wb"))
+pickle.dump(randomclf, open("RandomForestClassifier.pkl", "wb"))
+pickle.dump(neigh, open("KNeighborsClassifier.pkl", "wb"))
+pickle.dump(my_model, open("GridSearchCV.pkl", "wb"))
+# Close the pickle instances
+HackPickle_model_pkl.close()
+
 
 
 #Root Cause
@@ -153,7 +190,7 @@ from scipy.sparse import hstack
 X_train2_vector = hstack([X_train_2_1,X_train_2_2,X_train_2_3,X_train_2_4,X_train_2_5,X_train_2_6])
 from sklearn.feature_extraction.text import TfidfTransformer
 tfidf_train2 = TfidfTransformer()
-X_train_vector_tfidf2 = tfidf_train.fit_transform(X_train2_vector)
+X_train_vector_tfidf2 = tfidf_train2.fit_transform(X_train2_vector)
 
 
 X_test_2_1 = Vector2_1.transform(X_test2['Summary'].values.astype('U'))
@@ -163,7 +200,7 @@ X_test_2_4 = Vector2_4.transform(X_test2['Custom field (APAR Solution)'].values.
 X_test_2_5 = Vector2_5.transform(X_test2['Custom field (APAR Symptom)'].values.astype('U'))
 X_test_2_6 = Vector2_6.transform(X_test2['Custom field (Root Cause Analysis)'].values.astype('U'))
 X_test2_vector = hstack([X_test_2_1, X_test_2_2, X_test_2_3, X_test_2_4, X_test_2_5, X_test_2_6])
-X_test_vector_tfidf2 = tfidf_train.transform(X_test2_vector)
+X_test_vector_tfidf2 = tfidf_train2.transform(X_test2_vector)
 
 #ML Algorithm
 from sklearn.naive_bayes import MultinomialNB
@@ -190,6 +227,21 @@ from sklearn.neighbors import KNeighborsClassifier
 neigh2 = KNeighborsClassifier(n_neighbors=3).fit(X_train_vector_tfidf2, y_train2)
 predicted_neigh2 = neigh2.predict(X_test_vector_tfidf2)
 np.mean(predicted_neigh2 == y_test2)*100
+
+pickle.dump(Vector2_1, open("Vector1_2.pkl", "wb"))
+pickle.dump(Vector2_2, open("Vector2_2.pkl", "wb"))
+pickle.dump(Vector2_3, open("Vector3_2.pkl", "wb"))
+pickle.dump(Vector2_4, open("Vector4_2.pkl", "wb"))
+pickle.dump(Vector2_5, open("Vector5_2.pkl", "wb"))
+pickle.dump(Vector2_6, open("Vector6_2.pkl", "wb"))
+pickle.dump(tfidf_train2, open("tfidf_train2.pkl", "wb"))
+pickle.dump(clf2, open("MultinomialNB2.pkl", "wb"))
+pickle.dump(sgd2, open("SGDClassifier2.pkl", "wb"))
+pickle.dump(Dtreeclf2, open("DecisionTreeClassifier2.pkl", "wb"))
+pickle.dump(randomclf2, open("RandomForestClassifier2.pkl", "wb"))
+pickle.dump(neigh2, open("KNeighborsClassifier2.pkl", "wb"))
+
+
 
 
 
